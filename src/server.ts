@@ -16,6 +16,9 @@ import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 
 import { NodeEnvs } from '@src/constants/misc';
 import { RouteError } from '@src/other/classes';
+import mongoose from 'mongoose';
+import userRoute from './routes/userRoute';
+import messageRoute from './routes/messageRoute';
 
 // **** Variables **** //
 
@@ -37,9 +40,7 @@ if (EnvVars.NodeEnv === NodeEnvs.Dev.valueOf()) {
 if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
   app.use(helmet());
 }
-
-// Add APIs, must be after middleware
-
+connectToDatabase(EnvVars.MongodbUri);
 // Add error handler
 app.use(
   (
@@ -75,5 +76,17 @@ app.get('/', (_: Request, res: Response) => {
   return res.render('index');
 });
 
+app.use('/', userRoute);
+app.use('/messages',messageRoute);
+
+async function connectToDatabase(connectionString: string) {
+  try {
+    await mongoose.connect(connectionString);
+    logger.info('successfully connected to database');
+  } catch (err) {
+    logger.err("couldn't connect to database");
+    logger.err(err);
+  }
+}
 
 export default app;
