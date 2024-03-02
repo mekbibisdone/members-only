@@ -34,7 +34,7 @@ export const saveMessage = [
   async function (req: Request, res: Response, next: NextFunction) {
     try {
       if (!req.user) {
-        res.redirect("/");
+        res.redirect("/login");
       } else {
         const result = validationResult(req);
         if (!result.isEmpty()) {
