@@ -5,6 +5,16 @@ import bcrypt from "bcrypt";
 import { NextFunction, Response, Request } from "express";
 import passport from "passport";
 
+export const getSignUpPage = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  if (req.user) res.redirect("/");
+  else res.render("signup", { title: "Sign Up" });
+  next();
+};
+
 export const createUser = [
   body("fullname")
     .trim()
@@ -52,9 +62,10 @@ export const createUser = [
     try {
       const result = validationResult(req);
       if (!result.isEmpty()) {
-        res.render("index", {
+        res.render("signup", {
           errors: result.array(),
           data: req.body as UserBody,
+          title: "Sign up",
         });
       } else {
         const data = matchedData(req) as UserBody;
@@ -79,11 +90,14 @@ export const createUser = [
 ];
 
 export const getLoginPage = (req: Request, res: Response) => {
+  if (req.user) {
+    res.redirect("/");
+  }
   if ("messages" in req.session) {
     const errors = req.session.messages;
     delete req.session.messages;
-    res.render("login", { errors });
-  } else res.render("login");
+    res.render("login", { errors, title: "Log in" });
+  } else res.render("login", { title: "Log in" });
 };
 
 export const login = [
@@ -111,6 +125,7 @@ export const login = [
           .array()
           .map((error) => ("msg" in error ? (error.msg as string) : null)),
         data: req.body as LoginBody,
+        title: "Log in",
       });
     } else {
       const data = matchedData(req) as LoginBody;
@@ -120,7 +135,7 @@ export const login = [
   },
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   passport.authenticate("local", {
-    successRedirect: "/messages",
+    successRedirect: "/",
     failureRedirect: "/login",
     successMessage: true,
     failureMessage: true,
@@ -130,6 +145,6 @@ export const login = [
 export const logout = (req: Request, res: Response, next: NextFunction) => {
   req.logout((error) => {
     if (error) next(error);
-    else res.redirect("messages");
+    else res.redirect("/");
   });
 };

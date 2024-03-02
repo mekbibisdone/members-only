@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%- title %></title>
+  </head>
+  <body>
+    <%- include("./header.ejs"); %>
+    <% if (typeof errors !== 'undefined') { %> <% for (error of errors){%>
+    <h1><%= error.msg %></h1>
+    <% } %> <% } %>
+
+    <fieldset>
+      <legend>Sign up</legend>
+      <form action="signup" method="post">
+        <label for="fullname">Full name*:</label><input type="text"
+        id="fullname" name="fullname" autocomplete="name" required value="<%=
+        typeof data !== "undefined" && data.fullname ? data.fullname :"" %>" />
+
+        <label for="email">Email*:</label><input type="email" name="email"
+        id="email" autocomplete="email" required value="<%= typeof data !==
+        "undefined" && data.email ? data.email :"" %>" />
+
+        <label for="password"></label>Password*:<input type="password"
+        name="password" id="password" autocomplete="new-password" required
+        value="<%= typeof data !== "undefined" && data.password ? data.password :"" %>"/>
+
+        <label for="passwordConfirmation">Confirm Password*:</label><input
+        type="password" name="passwordConfirmation" id="passwordConfirmation"
+        autocomplete="current-password" required value="<%= typeof data !== "undefined" &&
+        data.passwordConfirmation ? data.passwordConfirmation :"" %>"/>
+
+        <label for="adminKey">Admin Key(optional):</label><input type="text"
+        id="adminKey" name="adminKey" value="<%= typeof data !== "undefined" &&
+        data.adminKey ? data.adminKey : "" %> "/>
+
+        <button type="submit">Sign up</button>
+      </form>
+    </fieldset>
+  </body>
+</html>

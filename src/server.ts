@@ -99,11 +99,9 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-app.get("/", (_: Request, res: Response) => {
-  return res.render("index");
-});
+app.use("/", messageRoute);
 
 app.use("/", userRoute);
-app.use("/messages", messageRoute);
+
 
 export default app;
