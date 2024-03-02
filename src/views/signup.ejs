@@ -15,20 +15,20 @@
       <legend>Sign up</legend>
       <form action="signup" method="post">
         <label for="fullname">Full name*:</label><input type="text"
-        id="fullname" name="fullname" autocomplete="name" required value="<%=
-        typeof data !== "undefined" && data.fullname ? data.fullname :"" %>" />
+        id="fullname" name="fullname" autocomplete="name" required minlength="2" value="<%=
+        typeof data !== "undefined" && data.fullname ? data.fullname :"" %>"  />
 
         <label for="email">Email*:</label><input type="email" name="email"
         id="email" autocomplete="email" required value="<%= typeof data !==
         "undefined" && data.email ? data.email :"" %>" />
 
         <label for="password"></label>Password*:<input type="password"
-        name="password" id="password" autocomplete="new-password" required
+        name="password" id="password" autocomplete="new-password" minlength="2" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$" required
         value="<%= typeof data !== "undefined" && data.password ? data.password :"" %>"/>
 
         <label for="passwordConfirmation">Confirm Password*:</label><input
         type="password" name="passwordConfirmation" id="passwordConfirmation"
-        autocomplete="current-password" required value="<%= typeof data !== "undefined" &&
+        autocomplete="current-password" required  minlength="2" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$" value="<%= typeof data !== "undefined" &&
         data.passwordConfirmation ? data.passwordConfirmation :"" %>"/>
 
         <label for="adminKey">Admin Key(optional):</label><input type="text"
