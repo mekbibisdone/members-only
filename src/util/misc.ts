@@ -1,3 +1,4 @@
+import { Temporal } from "@js-temporal/polyfill";
 /**
  * Miscellaneous shared functions go here.
  */
@@ -18,4 +19,17 @@ export function tick(milliseconds: number): Promise<void> {
       resolve();
     }, milliseconds);
   });
+}
+
+export function formatInstant(instantString: string) {
+  const instant = Temporal.Instant.from(instantString);
+  const formattedInstant = instant.toLocaleString(undefined, {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  return formattedInstant;
 }

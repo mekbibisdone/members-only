@@ -1,11 +1,32 @@
 import { Temporal } from "@js-temporal/polyfill";
 import Message from "@src/models/messageModel";
+import { formatInstant } from "@src/util/misc";
 import { NextFunction, Response, Request } from "express";
 import { body, matchedData, validationResult } from "express-validator";
 
-export const getHomePage = async (req: Request, res: Response) => {
-  const messages = await Message.find({}, "content");
-  return res.render("index", { user: req.user, title: "Homepage", messages });
+export const getHomePage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    let messages;
+    if (req.user && "isMember" in req.user) {
+      if (req.user.isMember === true) {
+        messages = await Message.find({}).populate("user", { password: 0 });
+        for (const message of messages) {
+          const formattedTimeStamp = formatInstant(message.timeStamp);
+          message.timeStamp = formattedTimeStamp;
+        }
+      }
+    } else {
+      messages = await Message.find({}, "content");
+    }
+
+    return res.render("index", { user: req.user, title: "Homepage", messages });
+  } catch (err) {
+    next(err);
+  }
 };
 
 export const saveMessage = [
