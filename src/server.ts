@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import express, { NextFunction, Request, Response } from "express";
 import "express-async-errors";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 import helmet from "helmet";
 import logger from "jet-logger";
 import morgan from "morgan";
@@ -71,7 +72,14 @@ app.set("view engine", "ejs");
 const staticDir = path.join(__dirname, "public");
 app.use(express.static(staticDir));
 
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(
+  session({
+    secret: "cats",
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({ mongoUrl: EnvVars.MongodbUri }),
+  }),
+);
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
