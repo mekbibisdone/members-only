@@ -78,7 +78,7 @@ export const createUser = [
   },
 ];
 
-export const getLoginPage = (req:Request, res:Response) => {
+export const getLoginPage = (req: Request, res: Response) => {
   if ("messages" in req.session) {
     const errors = req.session.messages;
     delete req.session.messages;
@@ -126,3 +126,10 @@ export const login = [
     failureMessage: true,
   }),
 ];
+
+export const logout = (req: Request, res: Response, next: NextFunction) => {
+  req.logout((error) => {
+    if (error) next(error);
+    else res.redirect("messages");
+  });
+};

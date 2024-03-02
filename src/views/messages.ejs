@@ -6,6 +6,12 @@
     <title>Messages</title>
   </head>
   <body>
+    <Header>
+      <h1>Members only</h1>
+      <% if (user) { %>
+        <a href="/logout">Log out</a>
+      <% } %>
+    </Header>
     <% if(user) {%>
     <h1>Hello <%= user.fullname %></h1>
     <h1>Email <%= user.email %></h1>
