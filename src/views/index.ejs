@@ -26,7 +26,7 @@
       <% } %>
       <% } %>
       <form method="post" action="/join">
-        <label for="member_pass_code">Member Pass Code:</label>
+        <label for="member_pass_code">Member Pass Code*:</label>
         <input type="text" name="member_pass_code" id="member_pass_code" required value="<%= typeof data !== "undefined" && data.member_pass_code ? data.member_pass_code : ""%>"/>
         <button type="submit">Join</button>
       </form>
@@ -41,7 +41,7 @@
       <% } %>
       <% } %>
       <form method="post" action="/message">
-        <label for="message">Message</label>
+        <label for="message">Message*:</label>
         <textarea
           name="message"
           id="message"
