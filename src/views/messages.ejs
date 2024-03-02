@@ -6,6 +6,9 @@
     <title>Messages</title>
   </head>
   <body>
-    <h1>Hello <% user ? user.fullname:"" %></h1>
+    <% if(user) {%>
+    <h1>Hello <%= user.fullname %></h1>
+    <h1>Email <%= user.email %></h1>
+    <% } %>
   </body>
 </html>

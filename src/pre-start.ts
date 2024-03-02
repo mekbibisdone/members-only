@@ -5,9 +5,9 @@
  */
 
 // NOTE: DO NOT IMPORT ANY SOURCE CODE HERE
-import path from 'path';
-import dotenv from 'dotenv';
-import { parse } from 'ts-command-line-args';
+import path from "path";
+import dotenv from "dotenv";
+import { parse } from "ts-command-line-args";
 
 
 // **** Types **** //
@@ -23,8 +23,8 @@ interface IArgs {
 const args = parse<IArgs>({
   env: {
     type: String,
-    defaultValue: 'development',
-    alias: 'e',
+    defaultValue: "development",
+    alias: "e",
   },
 });
 
