@@ -20,5 +20,5 @@ export const localStrategy = new LocalStrategy(
     } catch (err) {
       return done(err);
     }
-  }
+  },
 );

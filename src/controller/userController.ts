@@ -16,7 +16,7 @@ export const createUser = [
       max: 100,
     })
     .withMessage(
-      "Full Name must be at least 2 characters and at most 100 characters"
+      "Full Name must be at least 2 characters and at most 100 characters",
     ),
   body("email")
     .trim()
@@ -25,7 +25,7 @@ export const createUser = [
     .withMessage("Email is required")
     .isEmail()
     .withMessage(
-      "Email is not is not in the correct form. example: dan@gmail.com"
+      "Email is not is not in the correct form. example: dan@gmail.com",
     )
     .custom(async (value: string) => {
       const user = await User.findOne({ email: value });
@@ -94,7 +94,7 @@ export const login = [
     .withMessage("Email is required")
     .isEmail()
     .withMessage(
-      "Email is not is not in the correct form. example: dan@gmail.com"
+      "Email is not is not in the correct form. example: dan@gmail.com",
     ),
   body("password")
     .trim()

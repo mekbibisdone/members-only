@@ -9,7 +9,7 @@ const userRoute = Router();
 
 userRoute.get("/login", getLoginPage);
 userRoute.post("/login", login);
-userRoute.get("/logout", logout)
+userRoute.get("/logout", logout);
 
 userRoute.post("/signup", createUser);
 
