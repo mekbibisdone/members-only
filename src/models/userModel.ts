@@ -6,7 +6,6 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   isMember: { type: Boolean, default: false, require: true },
   isAdmin: { type: Boolean, default: false, require: true },
-  messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
 });
 
 const User = mongoose.model("User", userSchema);
