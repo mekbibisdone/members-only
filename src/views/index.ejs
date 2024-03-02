@@ -10,6 +10,20 @@
     <% if(user) {%>
     <h1>Hello <%= user.fullname %></h1>
     <h1>Email <%= user.email %></h1>
+    <fieldset><legend>Create new Message</legend>
+      <% if(typeof errors !== "undefined") {%>
+        <h1>Error:</h1>
+       <% for (error of errors) {%>
+        <h1><%= error %></h1>
+       <% } %>
+      <% } %>  
+      <form method="post" action="/message">
+        <label for="message">Message</label>
+        <textarea name="message" id="message" cols="30" rows="10" required></textarea>
+        <button type="submit">Save message</button>
+      </form>
+    </fieldset>
+
     <% } %>
   </body>
 </html>
