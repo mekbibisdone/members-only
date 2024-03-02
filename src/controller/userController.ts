@@ -94,12 +94,13 @@ export const createUser = [
 export const getLoginPage = (req: Request, res: Response) => {
   if (req.user) {
     res.redirect("/");
+  } else {
+    if ("messages" in req.session) {
+      const errors = req.session.messages;
+      delete req.session.messages;
+      res.render("login", { errors, title: "Log in" });
+    } else res.render("login", { title: "Log in" });
   }
-  if ("messages" in req.session) {
-    const errors = req.session.messages;
-    delete req.session.messages;
-    res.render("login", { errors, title: "Log in" });
-  } else res.render("login", { title: "Log in" });
 };
 
 export const login = [
@@ -160,50 +161,50 @@ export const joinClub = [
   async (req: Request, res: Response, next: NextFunction) => {
     if (!req.user) {
       res.redirect("/login");
-    }
-    try {
-      const result = validationResult(req);
-      const messages = await Message.find({}, "content");
-      if (!result.isEmpty()) {
-        res.render("index", {
-          title: "Homepage",
-          user: req.user,
-          errors: result
-            .array()
-            .map((error) => ("msg" in error ? (error.msg as string) : null)),
-          messages,
-        });
-      } else {
-        const { member_pass_code } = matchedData(req);
-        const match = await bcrypt.compare(
-          member_pass_code as string,
-          EnvVars.Member_Hash as string,
-        );
-        if (match) {
-          const user = req.user;
-          if (
-            user &&
-            "isMember" in user &&
-            "save" in user &&
-            typeof user.save === "function"
-          ) {
-            user.isMember = true;
-            await user.save();
-          }
-
-          res.redirect("/");
-        } else {
+    } else {
+      try {
+        const result = validationResult(req);
+        const messages = await Message.find({}, "content");
+        if (!result.isEmpty()) {
           res.render("index", {
             title: "Homepage",
             user: req.user,
-            errors: ["Member pass code is not correct"],
+            errors: result
+              .array()
+              .map((error) => ("msg" in error ? (error.msg as string) : null)),
             messages,
-            data: req.body as { member_pass_code: string },
           });
+        } else {
+          const { member_pass_code } = matchedData(req);
+          const match = await bcrypt.compare(
+            member_pass_code as string,
+            EnvVars.Member_Hash as string,
+          );
+          if (match) {
+            const user = req.user;
+            if (
+              user &&
+              "isMember" in user &&
+              "save" in user &&
+              typeof user.save === "function"
+            ) {
+              user.isMember = true;
+              await user.save();
+            }
+            res.redirect("/");
+          } else {
+            res.render("index", {
+              title: "Homepage",
+              user: req.user,
+              errors: ["Member pass code is not correct"],
+              messages,
+              data: req.body as { member_pass_code: string },
+            });
+          }
         }
+      } catch (err) {
+        next(err);
       }
-    } catch (err) {
-      next(err);
     }
   },
 ];
