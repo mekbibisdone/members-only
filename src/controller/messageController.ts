@@ -3,6 +3,11 @@ import Message from "@src/models/messageModel";
 import { NextFunction, Response, Request } from "express";
 import { body, matchedData, validationResult } from "express-validator";
 
+export const getHomePage = async (req:Request, res:Response) => {
+  const messages = await Message.find({},"content");
+  return res.render("index", { user: req.user, title: "Homepage", messages });
+};
+
 export const saveMessage = [
   body("message").trim().escape().notEmpty().withMessage("Message is required"),
   async function (req: Request, res: Response, next: NextFunction) {

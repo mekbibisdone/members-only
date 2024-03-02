@@ -23,7 +23,11 @@
         <button type="submit">Save message</button>
       </form>
     </fieldset>
-
+    <% } %>
+    <% if (messages){ %>
+      <% for (message of messages) { %>
+          <h1> <%= message.content %></h1>
+        <% } %>
     <% } %>
   </body>
 </html>
