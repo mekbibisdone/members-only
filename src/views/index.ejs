@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,26 +8,59 @@
   <body>
     <%- include("./header.ejs"); %>
     <% if(user) {%>
-    <h1>Hello <%= user.fullname %></h1>
-    <h1>Email <%= user.email %></h1>
-    <fieldset><legend>Create new Message</legend>
+    <h1>
+      Hello
+      <%= user.fullname %>
+    </h1>
+    <h1>
+      Email
+      <%= user.email %>
+    </h1>
+    <h1>
+      IsMember
+      <%= user.isMember %>
+    </h1>
+    <% if (!user.isMember){ %>
+    <fieldset>
+      <legend>To see the name and timestamp of users, enter pass code.</legend>
       <% if(typeof errors !== "undefined") {%>
-        <h1>Error:</h1>
-       <% for (error of errors) {%>
-        <h1><%= error %></h1>
-       <% } %>
-      <% } %>  
+      <h1>Error:</h1>
+      <% for (error of errors) {%>
+      <h1><%= error %></h1>
+      <% } %>
+      <% } %>
+      <form method="post" action="/join">
+        <label for="member_pass_code">Member Pass Code:</label>
+        <input type="text" name="member_pass_code" id="member_pass_code" required value="<%= typeof data !== "undefined" && data.member_pass_code ? data.member_pass_code : ""%>"/>
+        <button type="submit">Join</button>
+      </form>
+    </fieldset>
+    <% } %>
+    <fieldset>
+      <legend>Create new Message</legend>
+      <% if(typeof errors !== "undefined") {%>
+      <h1>Error:</h1>
+      <% for (error of errors) {%>
+      <h1><%= error %></h1>
+      <% } %>
+      <% } %>
       <form method="post" action="/message">
         <label for="message">Message</label>
-        <textarea name="message" id="message" cols="30" rows="10" required></textarea>
+        <textarea
+          name="message"
+          id="message"
+          cols="30"
+          rows="10"
+          required
+        ></textarea>
         <button type="submit">Save message</button>
       </form>
     </fieldset>
     <% } %>
     <% if (messages){ %>
-      <% for (message of messages) { %>
-          <h1> <%= message.content %></h1>
-        <% } %>
+    <% for (message of messages) { %>
+    <h1><%= message.content %></h1>
+    <% } %>
     <% } %>
   </body>
 </html>

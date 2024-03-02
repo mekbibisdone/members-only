@@ -4,6 +4,8 @@ import { LoginBody, UserBody } from "@src/types";
 import bcrypt from "bcrypt";
 import { NextFunction, Response, Request } from "express";
 import passport from "passport";
+import EnvVars from "@src/constants/EnvVars";
+import Message from "@src/models/messageModel";
 
 export const getSignUpPage = (
   req: Request,
@@ -148,3 +150,60 @@ export const logout = (req: Request, res: Response, next: NextFunction) => {
     else res.redirect("/");
   });
 };
+
+export const joinClub = [
+  body("member_pass_code")
+    .trim()
+    .escape()
+    .notEmpty()
+    .withMessage("Member pass code is required"),
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      res.redirect("/login");
+    }
+    try {
+      const result = validationResult(req);
+      const messages = await Message.find({}, "content");
+      if (!result.isEmpty()) {
+        res.render("index", {
+          title: "Homepage",
+          user: req.user,
+          errors: result
+            .array()
+            .map((error) => ("msg" in error ? (error.msg as string) : null)),
+          messages,
+        });
+      } else {
+        const { member_pass_code } = matchedData(req);
+        const match = await bcrypt.compare(
+          member_pass_code as string,
+          EnvVars.Member_Hash as string,
+        );
+        if (match) {
+          const user = req.user;
+          if (
+            user &&
+            "isMember" in user &&
+            "save" in user &&
+            typeof user.save === "function"
+          ) {
+            user.isMember = true;
+            await user.save();
+          }
+
+          res.redirect("/");
+        } else {
+          res.render("index", {
+            title: "Homepage",
+            user: req.user,
+            errors: ["Member pass code is not correct"],
+            messages,
+            data: req.body as { member_pass_code: string },
+          });
+        }
+      }
+    } catch (err) {
+      next(err);
+    }
+  },
+];
