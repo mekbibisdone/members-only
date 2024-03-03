@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include("./head.ejs") %>
+  </head>
+  <body>
+    <%- include("./header.ejs"); %>
+    <main>
+      <fieldset>
+        <legend>Create new Message</legend>
+        <% if(typeof errors !== "undefined") {%>
+        <h1>Error:</h1>
+        <% for (error of errors) {%>
+        <h1><%= error %></h1>
+        <% } %>
+        <% } %>
+        <form method="post" action="/message">
+          <label for="message">Message*:</label>
+          <textarea
+            name="message"
+            id="message"
+            cols="30"
+            rows="10"
+            required
+          ></textarea>
+          <button type="submit">Save message</button>
+        </form>
+      </fieldset>
+    </main>
+  </body>
+</html>

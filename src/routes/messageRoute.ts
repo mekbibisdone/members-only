@@ -1,15 +1,15 @@
 import {
   deleteMessage,
-  getHomePage,
+  getMessagePage,
   saveMessage,
 } from "@src/controller/messageController";
 import { Router } from "express";
 const messageRoute = Router();
 
-messageRoute.get("/", getHomePage);
+messageRoute.get("/",getMessagePage);
 
-messageRoute.post("/message", saveMessage);
+messageRoute.post("/", saveMessage);
 
-messageRoute.get("/message/:id/delete", deleteMessage);
+messageRoute.get("/:id/delete", deleteMessage);
 
 export default messageRoute;

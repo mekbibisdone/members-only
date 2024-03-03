@@ -22,6 +22,7 @@ import messageRoute from "./routes/messageRoute";
 import userRoute from "./routes/userRoute";
 import { localStrategy } from "./util/passport";
 import { connectToDatabase } from "./util/mongo";
+import indexRoute from "./routes/indexRoute";
 // **** Variables **** //
 
 const app = express();
@@ -99,9 +100,11 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-app.use("/", messageRoute);
+app.use("/", indexRoute);
 
 app.use("/", userRoute);
+
+app.use("/message", messageRoute);
 
 
 export default app;

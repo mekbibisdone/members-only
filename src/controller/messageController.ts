@@ -1,31 +1,18 @@
 import { Temporal } from "@js-temporal/polyfill";
 import Message from "@src/models/messageModel";
-import { formatInstant } from "@src/util/misc";
 import { NextFunction, Response, Request } from "express";
 import { body, matchedData, param, validationResult } from "express-validator";
 
-export const getHomePage = async (
+export const getMessagePage = (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    let messages;
-    if (
-      req.user &&
-      (("isMember" in req.user && req.user.isMember === true) ||
-        ("isAdmin" in req.user && req.user.isAdmin === true))
-    ) {
-      messages = await Message.find({}).populate("user", { password: 0 });
-      for (const message of messages) {
-        const formattedTimeStamp = formatInstant(message.timeStamp);
-        message.timeStamp = formattedTimeStamp;
-      }
-    } else {
-      messages = await Message.find({}, "content");
+    if (!req.user) res.redirect("/");
+    else {
+      res.render("message", { title: "Create Message" });
     }
-
-    return res.render("index", { user: req.user, title: "Homepage", messages });
   } catch (err) {
     next(err);
   }
@@ -72,10 +59,8 @@ export const saveMessage = [
 
 export const deleteMessage = [
   (req: Request, res: Response, next: NextFunction) => {
-    if (!req.user)
-      res.redirect("/login");
-    else if("isAdmin" in req.user && !req.user.isAdmin)
-      res.redirect("/");
+    if (!req.user) res.redirect("/login");
+    else if ("isAdmin" in req.user && !req.user.isAdmin) res.redirect("/");
     else next();
   },
   param("id").trim().escape().notEmpty().withMessage("Message id is required"),
