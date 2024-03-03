@@ -16,6 +16,7 @@
       Email
       <%= user.email %>
     </h1>
+    
     <% if (!user.isMember && !user.isAdmin){ %>
     <fieldset>
       <legend>To see the name and timestamp of users, enter pass code.</legend>
@@ -59,7 +60,11 @@
       <% if (message.user) {%>
         <h2><%= message.user.fullname %></h2>
         <h2><%= message.timeStamp %></h2>
+        <% if (user.isAdmin) {%>
+          <a href="/message/<%=message.id%>/delete"><button>delete</button></a>
+        <% } %>
       <% } %>
+
     <% } %>
     <% } %>
   </body>
