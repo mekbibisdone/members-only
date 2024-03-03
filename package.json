@@ -43,6 +43,7 @@
     "jet-paths": "^1.0.6",
     "jsonfile": "^6.1.0",
     "module-alias": "^2.2.3",
+    "mongodb": "^6.4.0",
     "mongoose": "^8.2.0",
     "morgan": "^1.10.0",
     "passport": "^0.7.0",
