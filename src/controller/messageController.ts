@@ -9,7 +9,7 @@ export const getMessagePage = (
   next: NextFunction,
 ) => {
   try {
-    if (!req.user) res.redirect("/");
+    if (!req.user) res.redirect("/login");
     else {
       res.render("message", { title: "Create Message" });
     }
