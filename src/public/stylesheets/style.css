@@ -1,8 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:700|Poppins:400');
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
+
+body {
+  font-family: 'Poppins';
+  font-weight: 400;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Poppins';
+  font-weight: 700;
+}
+
+html {font-size: 100%;} /* 16px */
+
+h1 {font-size: 2.525rem; /* 40.32px */}
+
+h2 {font-size: 1.894rem; /* 30.24px */}
+
+h3,label,input,legend,button,a, p {font-size: 1.421rem; /* 22.72px */}
+
+h4,time {font-size: 1.066rem; /* 17.12px */}
+
+small {font-size: 0.600rem; /* 9.6px */}
 
 header {
   display: flex;
@@ -11,7 +34,9 @@ header {
   align-items: center;
   flex-wrap: wrap;
 }
-
+header h1 {
+  text-align: center;
+}
 nav {
   display: flex;
   gap: 10px;
@@ -67,6 +92,9 @@ button {
   justify-self: end;
 }
 
+.message h2 {
+  font-size: 1.421rem;
+}
 .message div > time{
   justify-self: end;
 }
