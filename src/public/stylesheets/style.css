@@ -45,6 +45,7 @@ input,
 legend,
 button,
 a,
+textarea,
 p {
   font-size: 1.421rem; /* 22.72px */
 }
