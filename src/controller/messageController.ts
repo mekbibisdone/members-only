@@ -11,7 +11,11 @@ export const getHomePage = async (
 ) => {
   try {
     let messages;
-    if (req.user && "isMember" in req.user && req.user.isMember === true) {
+    if (
+      req.user &&
+      (("isMember" in req.user && req.user.isMember === true) ||
+        ("isAdmin" in req.user && req.user.isAdmin === true))
+    ) {
       messages = await Message.find({}).populate("user", { password: 0 });
       for (const message of messages) {
         const formattedTimeStamp = formatInstant(message.timeStamp);

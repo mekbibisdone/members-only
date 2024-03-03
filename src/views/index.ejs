@@ -16,7 +16,7 @@
       Email
       <%= user.email %>
     </h1>
-    <% if (!user.isMember){ %>
+    <% if (!user.isMember && !user.isAdmin){ %>
     <fieldset>
       <legend>To see the name and timestamp of users, enter pass code.</legend>
       <% if(typeof errors !== "undefined") {%>
