@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%- title %></title>
-  </head>
+  <%- include("./head.ejs") %>
   <body>
     <%- include("./header.ejs"); %>
     <% if (typeof errors !== 'undefined') { %> <% for (error of errors){%>
     <h1><%= error.msg %></h1>
     <% } %> <% } %>
-
+    <main>
     <fieldset>
       <legend>Sign up</legend>
       <form action="signup" method="post">
@@ -22,7 +18,7 @@
         id="email" autocomplete="email" required value="<%= typeof data !==
         "undefined" && data.email ? data.email :"" %>" />
 
-        <label for="password"></label>Password*:<input type="password"
+        <label for="password">Password*:</label><input type="password"
         name="password" id="password" autocomplete="new-password" minlength="2" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$" required
         value="<%= typeof data !== "undefined" && data.password ? data.password :"" %>"/>
 
@@ -38,5 +34,6 @@
         <button type="submit">Sign up</button>
       </form>
     </fieldset>
+    </main>
   </body>
 </html>

@@ -1,17 +1,19 @@
-<Header>
-    <h1>Members only</h1>
+<header>
+  <h1>Members only</h1>
+  <nav>
     <% if (title === "Homepage") {%>
-        <% if (user) { %>
-        <a href="/logout">Log out</a>
-        <% } else{ %>
-        <a href="/login">Login</a>
-        <a href="/signup">Sign up</a>
-        <% } %>
-    <% }else if (title === "Sign Up"){%>
-        <a href="/">Home</a>
-        <a href="/login">Login</a>
-    <% }else { %>
-        <a href="/">Home</a>
-        <a href="/signup">Sign Up</a>
+    <% if (user) { %>
+    <a href="/logout">Log out</a>
+    <% } else{ %>
+    <a href="/login">Login</a>
+    <a href="/signup">Sign up</a>
     <% } %>
-</Header>
+    <% }else if (title === "Sign Up"){%>
+    <a href="/">Home</a>
+    <a href="/login">Login</a>
+    <% }else { %>
+    <a href="/">Home</a>
+    <a href="/signup">Sign Up</a>
+    <% } %>
+  </nav>
+</header>
