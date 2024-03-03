@@ -9,6 +9,7 @@ export default {
   Port: process.env.PORT ?? 0,
   MongodbUri: process.env.MONGODB_URI ?? "",
   Member_Hash: process.env.MEMBER_HASH,
+  Admin_Hash: process.env.ADMIN_HASH,
   CookieProps: {
     Key: "ExpressGeneratorTs",
     Secret: process.env.COOKIE_SECRET ?? "",

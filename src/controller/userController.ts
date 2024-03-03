@@ -60,7 +60,7 @@ export const createUser = [
     })
     .withMessage("Password do not match"),
   body("adminKey").trim().escape(),
-  function (req: Request, res: Response, next: NextFunction) {
+  async function (req: Request, res: Response, next: NextFunction) {
     try {
       const result = validationResult(req);
       if (!result.isEmpty()) {
@@ -75,6 +75,16 @@ export const createUser = [
           fullname: data.fullname,
           email: data.email,
         });
+        let match = false;
+        if (data.adminKey) {
+          match = await bcrypt.compare(
+            data.adminKey,
+            EnvVars.Admin_Hash as string,
+          );
+        }
+        if (match) {
+          newUser.isAdmin = true;
+        }
         bcrypt.hash(data.password, 10, async (err, hash) => {
           if (err) {
             next(err);
